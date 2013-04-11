@@ -16,18 +16,18 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 set(TOOL_LIBGIF_SOURCE giflib-5.0.4.tar.bz2)
 set(TOOL_LIBGIF_DIR giflib-5.0.4)
-set(CONFIG_ADD_OPTIONS "--enable-static;--enable-shared")
+set(CONFIG_ADD_OPTIONS "--prefix;${CMAKE_BINARY_DIR};--enable-static;--enable-shared")
 	if(DEFINED CMAKE_TOOLCHAIN_FILE)
 		add_custom_command(
 			OUTPUT BUILD_LIBGIF
-			COMMAND wget -qO- http://downloads.sourceforge.net/project/giflib/giflib-5.x/${TOOL_LIBGIF_SOURCE} | tar -xjvf - && cd ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR} && ${target_platform_preconfigure_options} ./configure --host=${target_platform} ${CONFIG_ADD_OPTIONS} && make -j2 && mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} && cp -l ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR}/./lib/.libs/lib* ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+			COMMAND wget -qO- /${TOOL_LIBGIF_SOURCE} | tar -xjvf - && cd ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR} && ${target_platform_preconfigure_options} ./configure --host=${target_platform} ${CONFIG_ADD_OPTIONS} && make -j2 && make install #&& mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} && cp -l ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR}/./lib/.libs/lib* ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 			COMMENT "Build libgif"
 		)
 	else(DEFINED CMAKE_TOOLCHAIN_FILE)
 		add_custom_command(
 			OUTPUT BUILD_LIBGIF
-			COMMAND wget -qO- http://downloads.sourceforge.net/project/giflib/giflib-5.x/${TOOL_LIBGIF_SOURCE} | tar -xjvf - && cd ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR} && ./configure ${CONFIG_ADD_OPTIONS} && make -j2 && mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} && cp -l ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR}/./lib/.libs/lib* ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} 
+			COMMAND wget -qO- http://downloads.sourceforge.net/project/giflib/giflib-5.x/${TOOL_LIBGIF_SOURCE} | tar -xjvf - && cd ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR} && ./configure ${CONFIG_ADD_OPTIONS} && make -j2 && make install #mkdir -p ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} && cp -l ${CMAKE_BINARY_DIR}/${TOOL_LIBGIF_DIR}/./lib/.libs/lib* ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} 
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 			COMMENT "Build libgif" 
 		)
